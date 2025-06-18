@@ -1,9 +1,13 @@
 import streamlit as st
 import joblib
 import re
+import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+
+nltk.download('punkt')
+nltk.download('stopwords')
 
 # Load model and vectorizer
 model = joblib.load("sentiment_model.pkl")
