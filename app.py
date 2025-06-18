@@ -6,6 +6,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
+# ✅ Download required NLTK resources
 nltk.download('punkt')
 nltk.download('stopwords')
 
@@ -13,11 +14,12 @@ nltk.download('stopwords')
 model = joblib.load("sentiment_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
-# Preprocessing function
-stop_words = set(stopwords.words('english'))
+# Setup stemmer
 stemmer = PorterStemmer()
 
+# ✅ Move stopword loading inside preprocessing function
 def preprocess(text):
+    stop_words = set(stopwords.words('english'))  # ← moved inside to prevent premature call
     text = text.lower()
     text = re.sub(r"http\S+|www\S+|https\S+", '', text)
     text = re.sub(r'@\w+|#\w+', '', text)
@@ -38,3 +40,4 @@ if st.button("Analyze"):
     prediction = model.predict(vectorized)[0]
     label = {1: "🟢 Positive", 0: "🟡 Neutral", -1: "🔴 Negative"}
     st.success(f"Predicted Sentiment: {label[prediction]}")
+
